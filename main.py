@@ -1,5 +1,4 @@
 
-
 import json
 from pathlib import Path
 
@@ -38,19 +37,17 @@ class TaskManager:
         return self.tasks
 
     # Mark a task as completed
-   
     def complete_task(self, task_id):
-     for task in self.tasks:
-        if task["id"] == task_id:
-            if task["completed"]:
-                raise ValueError("Task is already completed.")
+        for task in self.tasks:
+            if task["id"] == task_id:
+                if task["completed"]:
+                    raise ValueError("Task is already completed.")
 
-            task["completed"] = True
-            self._save()
-            return task
+                task["completed"] = True
+                self._save()
+                return task
 
-    raise ValueError(f"No task found with ID {task_id}.")
-
+        raise ValueError(f"No task found with ID {task_id}.")
 
     # Delete a task using its ID
     def delete_task(self, task_id):
@@ -115,22 +112,16 @@ def main():
 
                 for task in tasks:
                     status = "Completed" if task["completed"] else "Pending"
-                    print(
-                        f"{task['id']}. {task['title']} - {status}"
-                    )
+                    print(f"{task['id']}. {task['title']} - {status}")
 
         elif choice == "3":
             try:
                 task_id = int(input("Enter task ID: "))
                 task = manager.complete_task(task_id)
+                print(f"Task '{task['title']}' marked as completed!")
 
-                if task:
-                    print("Task marked as completed!")
-                else:
-                    print("Task not found.")
-
-            except ValueError:
-                print("Please enter a valid numeric ID.")
+            except ValueError as e:
+                print(f"Error: {e}")
 
         elif choice == "4":
             try:
